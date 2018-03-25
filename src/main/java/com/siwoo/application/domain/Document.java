@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter @Setter @ToString(exclude = "documentDetail")
 @EqualsAndHashCode(of={"id","title","user"})
 @Entity @Table(name = "documents")
-public class Document {
+public class Document implements Comparable<Document>{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +20,7 @@ public class Document {
     @Lob
     private String content;
 
-    private LocalDate createDate;
+    private LocalDate createDate = LocalDate.now();
 
     private LocalDate updateDate;
 
@@ -46,4 +46,15 @@ public class Document {
         }
     }
 
+    @Override
+    public int compareTo(Document document) {
+        //recent document is must be first
+        if(getId() != null && document.getId() != null) {
+            return Long.compare(id,document.getId());
+        } else if (getCreateDate() != null && document.getCreateDate() != null) {
+            return getCreateDate().compareTo(document.getCreateDate());
+        } else {
+            return title.compareToIgnoreCase(document.getTitle());
+        }
+    }
 }
