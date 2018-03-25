@@ -22,7 +22,7 @@
     <tx:annotation-driven />
 
     <!--component scanning-->
-    <context:component-scan base-package="com.siwoo.application.repository" />
+    <context:component-scan base-package="com.siwoo.application.repository;com.siwoo.application.service" />
     <!--testing datasource-->
     <jdbc:embedded-database id="dataSource" type="H2" />
 
