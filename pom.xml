@@ -47,6 +47,12 @@
             <version>${spring-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.0.5.RELEASE</version>
+        </dependency>
+
         <!--for testing, dev environment-->
         <dependency>
             <groupId>com.h2database</groupId>
