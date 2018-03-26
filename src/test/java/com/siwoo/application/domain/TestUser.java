@@ -15,9 +15,7 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @Slf4j
 @Transactional
@@ -91,5 +89,13 @@ public class TestUser {
         assertTrue(StringUtils.hasText(user.getPassword()));
         assertNotNull(user.getStatus());
     }
+
+    public static void testUser(User user1, User user2) {
+        assertTrue(user1.equals(user2));
+        assertEquals(user1.getPassword(),user2.getPassword());
+        assertEquals(user1.getStatus(),user2.getStatus());
+        assertEquals(user1.getPoint(),user2.getPoint());
+    }
+
 
 }

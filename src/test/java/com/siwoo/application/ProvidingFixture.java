@@ -99,4 +99,13 @@ public class ProvidingFixture {
         documentDetail.setDataType(DocumentDetail.DataType.TYPESCRIPT);
         docDetailFixtures.add(documentDetail);
     }
+
+    public static void providingDocumentToUser(List<User> userFixutres, List<Document> docFixtures) {
+        for(User user : userFixutres) {
+            for(Document document : docFixtures) {
+                Document newDocument = new Document(document.getTitle(),document.getContent());
+                newDocument.setUser(user);
+            }
+        }
+    }
 }

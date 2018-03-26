@@ -24,6 +24,13 @@ public class Document implements Comparable<Document>{
 
     private LocalDate updateDate;
 
+    public Document() { }
+
+    public Document(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     //Owner of FK
     @ManyToOne
     @JoinColumn(name = "user_id")

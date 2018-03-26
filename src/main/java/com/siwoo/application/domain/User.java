@@ -26,7 +26,9 @@ public class User {
 
     private String password;
 
-    private LocalDate joinDate;
+    private LocalDate joinDate = LocalDate.now();
+
+    private Address address;
 
     private int point;
 
@@ -66,4 +68,10 @@ public class User {
         }
     }
 
+    public void removeAllDocument() {
+        documents.forEach(doc -> {
+            doc.setUser(null);
+        });
+        documents.clear();
+    }
 }

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -32,31 +33,54 @@ public class TestDocumentRepository {
 
     private List<Document> docFixtures;
     private List<User> userFixtures;
-
+    private List<DocumentDetail> docDeatilFixtures;
     @Before
     public void setup() {
         docFixtures = new ArrayList<>();
         userFixtures = new ArrayList<>();
+        docDeatilFixtures = new ArrayList<>();
         ProvidingFixture.documentFixture(docFixtures);
         ProvidingFixture.userFixture(userFixtures);
+        ProvidingFixture.documentDetailFixture(docDeatilFixtures);
+
+        for(User user : userFixtures) {
+            userRepository.save(user);
+            for(Document document : docFixtures) {
+                Document newDocument = new Document(document.getTitle(),document.getContent());
+                newDocument.setUser(user);
+                documentRepository.save(newDocument);
+            }
+        }
     }
 
     @Test
     public void testFindByUser() {
         User user = userFixtures.get(0);
-        userRepository.save(user);
-        for(Document document : docFixtures) {
-            document.setUser(user);
-            documentRepository.save(document);
-        }
-
         List<Document> documents = documentRepository.findByUser(user);
         assertTrue(documents.size() == docFixtures.size());
         for(Document document : documents) {
             TestDocument.testDocument(document,true);
             log.warn(document.toString());
         }
+    }
 
+    @Test
+    public void testFindCountByUser() {
+        User user = userFixtures.get(0);
+        int size = user.getDocuments().size();
+        assertEquals(size, documentRepository.findCountByUser(user.getId()));
+    }
+
+    @Test
+    public void testFindAnyDocumentDetail() {
+        DocumentDetail documentDetail = docDeatilFixtures.get(0);
+        Document document = docFixtures.get(0);
+        docFixtures.get(0).setDocumentDetail(documentDetail);
+        documentRepository.save(document);
+
+        List<Document> documents = documentRepository.findAnyDocumentDetail();
+        assertTrue(documents.contains(document));
+        log.info(documents.toString());
     }
 
 
